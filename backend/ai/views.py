@@ -1,6 +1,8 @@
 import os
 import pickle
+import json
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from .nlp_utils import preprocess_input
 
 model_path = os.path.join(os.path.dirname(__file__), 'trained_model.pkl')
@@ -8,22 +10,28 @@ model_path = os.path.join(os.path.dirname(__file__), 'trained_model.pkl')
 with open(model_path, 'rb') as f:
     model_pipeline = pickle.load(f)
 
+@csrf_exempt
 def process_input(request):
   if request.method == 'POST':
-    user_input = request.POST.get('input')
+    try:
+      data = json.loads(request.body.decode('utf-8'))
+      user_input = data.get('input', None)
+      
+      if user_input is None:
+        return JsonResponse({'error': 'No input provided.'}, status=400)
+      
+      preprocessed_input = preprocess_input(user_input)
 
-    # Step 1: Preprocess the input using NLP (e.g., tokenization, stemming)
-    preprocessed_input = preprocess_input(user_input)
+      predicted_category = model_pipeline.predict([preprocessed_input])[0]
 
-    # Step 2: Predict the category using the Naive Bayes model
-    predicted_category = model_pipeline.predict([preprocessed_input])[0]
+      gpt4_prompt = f"This is a {predicted_category} question: {user_input}"
 
-    # Step 3: Use the predicted category as part of the GPT-4 prompt
-    gpt4_prompt = f"This is a {predicted_category} question: {user_input}"
+      gpt4_response = gpt4_prompt
 
-    # Step 4: Send the GPT-4 request and get the response (assuming you've integrated GPT-4)
-    gpt4_response = send_to_gpt4(gpt4_prompt)
+      return JsonResponse({'response': gpt4_response})
+    except json.JSONDecodeError:
+      return JsonResponse({'error': 'Invalid JSON.'}, status=400)
+    except Exception as e:
+      return JsonResponse({'error': str(e)}, status=500)
 
-    return JsonResponse({'response': gpt4_response})
-
-  return JsonResponse({'error': 'Invalid request method.'}, status=400)
+    return JsonResponse({'error': 'Invalid request method.'}, status=400)
