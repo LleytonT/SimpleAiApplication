@@ -134,3 +134,7 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+import os
+
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
