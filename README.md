@@ -1,6 +1,7 @@
 # NSW HSC Tutor
 
 This project is an AI-powered tutoring application designed to assist students preparing for the Australian NSW Higher School Certificate (HSC) exams. It leverages machine learning to classify questions into subjects and uses OpenAI's GPT-4 to provide detailed answers.
+See it live https://simple-ai-application.vercel.app/ .
 
 ## Table of Contents
 
