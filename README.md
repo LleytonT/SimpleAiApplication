@@ -54,7 +54,7 @@ To set up the project locally, follow these steps:
    ```
 6. **Navigate to the frontend directory**:
    ```bash
-   cd ../frontend
+   cd ../ui
    ```
 7. **Install frontend dependencies**:
    ```bash
