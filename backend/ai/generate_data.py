@@ -1,83 +1,56 @@
 import pandas as pd
-import random
 
-# Define categories and sample questions
-categories = ['health', 'finance', 'technology', 'education', 'entertainment']
-questions = {
-    'health': [
-        "What are the symptoms of flu?",
-        "How can I maintain a healthy diet?",
-        "What exercises are best for weight loss?",
-        "What is the recommended amount of sleep for adults?",
-        "How can I boost my immune system?",
-        "What are the benefits of yoga?",
-        "How do vaccines work?",
-        "What is mental health?",
-        "How to manage stress effectively?",
-        "What are the signs of depression?"
+# Define the existing data (or load it if you have it)
+data = {
+    'Mathematics': [
+        ("What is the quadratic formula?", "The quadratic formula is x = (-b ± √(b²-4ac)) / 2a."),
+        ("Factor the polynomial x² - 5x + 6.", "(x - 2)(x - 3)"),
+        ("What is the area of a circle with a radius of 3?", "The area is π * r² = 28.27."),
+        ("Find the derivative of f(x) = x³ - 2x² + x - 5.", "f'(x) = 3x² - 4x + 1"),
+        ("Evaluate the integral ∫ (2x + 3) dx.", "The integral is x² + 3x + C."),
+        ("How do you calculate the standard deviation?", "Standard deviation is calculated as the square root of the variance."),
+        ("What is the volume of a sphere with a radius of 4?", "Volume = (4/3)πr³ = 268.08."),
+        ("What is the formula for the area of a triangle?", "Area = 1/2 * base * height."),
+        ("Solve the equation: 3x + 5 = 20.", "x = 5."),
+        ("If f(x) = x² + 2x, find f(3).", "f(3) = 15."),
     ],
-    'finance': [
-        "How to save money effectively?",
-        "What is a good credit score?",
-        "How to invest in stocks?",
-        "What are the basics of personal finance?",
-        "How to budget my expenses?",
-        "What is the difference between a Roth and traditional IRA?",
-        "How do I improve my credit score?",
-        "What is cryptocurrency?",
-        "How to plan for retirement?",
-        "What are the best ways to reduce debt?"
+    'English': [
+        ("What is the structure of a persuasive essay?", "Introduction, Body Paragraphs, Conclusion."),
+        ("Analyze the use of foreshadowing in 'Of Mice and Men'.", "Foreshadowing is shown through various hints throughout the novel."),
+        ("Discuss the main themes of 'Pride and Prejudice'.", "Themes include social class, love, and reputation."),
+        ("What are the key features of a Shakespearean sonnet?", "14 lines, iambic pentameter, and a specific rhyme scheme."),
+        ("How do you develop a thesis statement?", "A thesis statement should state your position and the main points of your argument."),
+        ("What are the main ideas in 'The Road Not Taken'?", "The poem discusses choices and their impact on life."),
+        ("Compare the protagonists in '1984' and 'Brave New World'.", "Both deal with control and freedom but in different societal structures."),
+        ("What is the significance of the setting in 'The Great Gatsby'?", "The setting reflects the themes of wealth and moral decay."),
+        ("What is the purpose of literary devices?", "Literary devices enhance meaning and add depth to the text."),
+        ("Explain the theme of isolation in 'Frankenstein'.", "Isolation affects both Victor and the creature, leading to tragedy."),
     ],
-    'technology': [
-        "What is the latest smartphone on the market?",
-        "How does artificial intelligence work?",
-        "What are the benefits of cloud computing?",
-        "How can I protect my online privacy?",
-        "What is the difference between machine learning and deep learning?",
-        "How to build a website?",
-        "What programming languages should I learn?",
-        "What is blockchain technology?",
-        "How do I get started with coding?",
-        "What are the best practices for cybersecurity?"
-    ],
-    'education': [
-        "What are the benefits of online learning?",
-        "How to choose the right college?",
-        "What is the importance of early childhood education?",
-        "How to improve study habits?",
-        "What subjects are essential for a career in science?",
-        "How to apply for scholarships?",
-        "What are the advantages of vocational training?",
-        "How to write a good essay?",
-        "What are effective teaching methods?",
-        "What is the impact of technology on education?"
-    ],
-    'entertainment': [
-        "What are the top movies of this year?",
-        "How to get into the music industry?",
-        "What are the best TV shows to binge-watch?",
-        "How to plan a fun weekend?",
-        "What are the latest video games?",
-        "How to start a YouTube channel?",
-        "What are the best books to read?",
-        "How to organize a movie night?",
-        "What is the history of rock music?",
-        "How to write a screenplay?"
+    'Physics': [
+        ("What is Newton's first law of motion?", "An object at rest stays at rest, and an object in motion stays in motion unless acted upon by a net force."),
+        ("Explain the concept of friction and its types.", "Friction is a force resisting motion; types include static, kinetic, and rolling."),
+        ("What is the first law of thermodynamics?", "Energy cannot be created or destroyed, only transformed."),
+        ("Describe how lenses work.", "Lenses bend light rays to converge or diverge them, forming images."),
+        ("What is Ohm's Law?", "V = IR, where V is voltage, I is current, and R is resistance."),
+        ("What are the properties of sound waves?", "Sound waves are longitudinal, can travel through solids, liquids, and gases, and have frequency and amplitude."),
+        ("What is the difference between scalar and vector quantities?", "Scalars have magnitude only, while vectors have both magnitude and direction."),
+        ("What is the relationship between frequency and wavelength?", "Frequency and wavelength are inversely proportional in wave motion."),
+        ("Explain the photoelectric effect.", "The photoelectric effect occurs when light causes the emission of electrons from a material."),
+        ("Define kinetic energy and its formula.", "Kinetic energy is the energy of motion, KE = 1/2 mv²."),
     ]
 }
 
-# Generate synthetic data
-data = []
+# Create a DataFrame and save it
+expanded_data = []
 
-for _ in range(1000):
-    category = random.choice(categories)
-    question = random.choice(questions[category])
-    data.append({'input': question, 'label': category})
+for subject, qa_pairs in data.items():
+    for question, answer in qa_pairs:
+        expanded_data.append({'input': question, 'label': subject, 'answer': answer})
 
 # Create a DataFrame
-df = pd.DataFrame(data)
+df_expanded = pd.DataFrame(expanded_data)
 
-# Save to a CSV file
-df.to_csv('training_data.csv', index=False)
+# Save the expanded dataset to a CSV file
+df_expanded.to_csv('hsc_tutor_training_data_v2.csv', index=False)
 
-print("Synthetic training data generated and saved to 'training_data.csv'.")
+print("Expanded HSC tutor training data generated and saved to 'expanded_hsc_tutor_training_data_v2.csv'.")

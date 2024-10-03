@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .nlp_utils import preprocess_input
 
-model_path = os.path.join(os.path.dirname(__file__), 'trained_model.pkl')
+model_path = os.path.join(os.path.dirname(__file__), 'trained_hsc_tutor_model.pkl')
 
 with open(model_path, 'rb') as f:
   model_pipeline = pickle.load(f)
@@ -29,8 +29,9 @@ def process_input(request):
       preprocessed_input = preprocess_input(user_input)
 
       predicted_category = model_pipeline.predict([preprocessed_input])[0]
+      print(f"Predicted category: {predicted_category}")
 
-      gpt4_prompt = f"""You are an assistant focussed on helping students for the Australian NSW HSC.
+      gpt4_prompt = f"""You are an assistant focussed on helping students for all subjects of the Australian NSW HSC.
       You will receive a predicted category and a user input. Anything before the 'User input' line is context. 
       This is a {predicted_category} input. User input: {user_input}"""
 
