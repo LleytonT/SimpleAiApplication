@@ -30,7 +30,9 @@ def process_input(request):
 
       predicted_category = model_pipeline.predict([preprocessed_input])[0]
 
-      gpt4_prompt = f"This is a {predicted_category} question: {user_input}"
+      gpt4_prompt = f"""You are an assistant focussed on helping students for the Australian NSW HSC.
+      You will receive a predicted category and a user input. Anything before the 'User input' line is context. 
+      This is a {predicted_category} input. User input: {user_input}"""
 
       gpt4_response = send_to_gpt4(gpt4_prompt, context_mode, messages)
 
