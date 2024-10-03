@@ -18,11 +18,14 @@ function Chatbox() {
     }
 
     try {
-      const res = await axios.post("http://localhost:8000/api/process_input/", {
-        input,
-        contextMode,
-        messages,
-      });
+      const res = await axios.post(
+        "https://simpleaiapplication.onrender.com/api/process_input/",
+        {
+          input,
+          contextMode,
+          messages,
+        }
+      );
       setResponse(res.data.response);
       if (res.data.response.trim()) {
         setMessages((prevMessages) => [
